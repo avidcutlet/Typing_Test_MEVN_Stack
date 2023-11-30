@@ -1,15 +1,13 @@
 <template>
-  <Navbar />
-  <router-view></router-view>
+  <div class="flex flex-col min-h-screen font-Roboto bg-test-secondary">
+    <SiteNavigation />
+    <RouterView />
+  </div>
 </template>
 
-<script>
-import Navbar from '@/components/Navbar.vue'
-
-export default {
-  name: "App",
-  components: {
-    Navbar,
-  },
-}
+<script setup>
+import { RouterView } from 'vue-router'
+import SiteNavigation from './components/SiteNavigation.vue'
 </script>
+
+<style lang="scss" scoped></style>
