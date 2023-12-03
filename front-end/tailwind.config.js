@@ -4,12 +4,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "test-primary": "#F4DFAB",
-        "test-secondary": "#FCF7EA",
+        "test-primary": "#CCD1CC",
+        "test-secondary": "#EAE8E3",
+        "test-btn-display": "#935F4C",
+        "test-hover": "#9E6F5E",
+        "test-active": "#C5A99E",
       },
+      backgroundImage: {
+        'test-login': "url('./src/assets/images/background/login/pexels-cottonbro-studio-4065876_1920x1020.jpg')",
+        'test-register': "url('./src/assets/images/background/register/pexels-cup-of-couple-6177619_1920x1020.jpg')"
+      }
     },
     fontFamily: {
-      Roboto: ["Roboto, sans-serif"],
+      Nunito: ["Nunito, sans-serif"],
     },
     container: {
       padding: "2rem",
