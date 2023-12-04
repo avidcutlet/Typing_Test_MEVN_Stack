@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center items-center min-h-[91.3vh] w-auto bg-no-repeat bg-cover bg-test-register"
+    class="flex justify-center items-center min-h-[91.4vh] w-auto bg-no-repeat bg-cover bg-test-register"
   >
     <div
       class="flex flex-col justify-center w-1/4 px-5 text-white h-[75vh] backdrop-blur-xl rounded-xl border-collapse"
@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
 
-import PasswordField from '@/components/PasswordField.vue'
+import PasswordField from '@/components/PasswordField.vue';
 </script>

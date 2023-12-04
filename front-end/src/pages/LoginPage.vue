@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center items-center min-h-[91.3vh] w-auto bg-no-repeat bg-cover bg-test-login"
+    class="flex justify-center items-center min-h-[91.4vh] w-auto bg-no-repeat bg-cover bg-test-login"
   >
     <div
       class="flex flex-col justify-center w-1/4 px-5 text-white h-[75vh] backdrop-blur-xl rounded-xl border-collapse"
@@ -30,7 +30,7 @@
       <!-- Login button -->
       <span class="mt-3"></span>
       <button
-        class="text-black bg-test-btn-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
+        class="text-black bg-test-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
       >
         Login
       </button>
@@ -72,7 +72,7 @@
 
           <span class="my-auto">
             <img
-              class="h-7 w-7 hover:cursor-pointer"
+              class="h-7 w-7 mt-[.20rem] hover:cursor-pointer"
               src="../assets/icons/google/icons8-google-48.png"
               alt="google icon"
               srcset="

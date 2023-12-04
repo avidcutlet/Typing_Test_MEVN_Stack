@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 bg-white shadow-lg">
+  <header class="relative z-10 top-0 bg-test-secondary shadow-lg">
     <nav class="flex text-black">
 
       <!-- Typing Test Header -->
