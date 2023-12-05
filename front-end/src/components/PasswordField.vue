@@ -1,44 +1,40 @@
 <template>
-  <div class="flex">
-    <div>
-      <!-- Type your password -->
-      <input
-        class="inline z-[0] rounded-md text-black placeholder-black bg-white bg-opacity-40 p-1.5 w-[21.5rem]"
-        placeholder="Type your password"
-        :type="inputType"
-      />
-    </div>
+  <div class="flex justify-center bg-white bg-opacity-40 rounded-md">
+    <!-- Type your password -->
+    <input
+      class="text-black placeholder-black bg-white bg-opacity-0 outline-none p-1.5 w-full"
+      placeholder="Type your password"
+      :type="inputType"
+    />
 
-    <div class="mt-1.5">
-      <!-- Show Password -->
-      <img
-        class="fixed z-[1] right-6 h-6 w-7 hover:cursor-pointer"
-        src="../assets/icons/password/icons8-password-48.png"
-        alt="Lock"
-        @click="togglePasswordVisibility"
-        v-if="passwordVisibility"
-      />
+    <!-- Show Password -->
+    <img
+      class="my-2 h-5 w-6 hover:cursor-pointer"
+      src="../assets/icons/password/icons8-password-48.png"
+      alt="Lock"
+      @click="togglePasswordVisibility"
+      v-if="passwordVisibility"
+    />
 
-      <!-- Hide Password -->
-      <img
-      class="fixed z-[1] right-6 h-6 w-7 hover:cursor-pointer"
+    <!-- Hide Password -->
+    <img
+      class="my-2 h-5 w-6 hover:cursor-pointer"
       src="../assets/icons/password/icons8-unlock-48.png"
       alt="Lock"
       @click="togglePasswordVisibility"
       v-else
     />
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const passwordVisibility = ref(false)
-const inputType = ref('text')
+const passwordVisibility = ref(true);
+const inputType = ref('password');
 
 function togglePasswordVisibility() {
-  passwordVisibility.value = !passwordVisibility.value
-  inputType.value === 'password' ? (inputType.value = 'text') : (inputType.value = 'password')
+  passwordVisibility.value = !passwordVisibility.value;
+  inputType.value === 'password' ? (inputType.value = 'text') : (inputType.value = 'password');
 }
 </script>

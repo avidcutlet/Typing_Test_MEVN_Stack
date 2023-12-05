@@ -1,43 +1,34 @@
 <template>
   <div
-    class="flex justify-center items-center min-h-[91.4vh] w-auto bg-no-repeat bg-cover bg-test-login"
+    class="flex justify-center items-center min-h-[91.4vh] w-auto bg-no-repeat bg-cover bg-test-login text-white"
   >
     <div
       class="flex flex-col justify-center w-1/4 px-5 text-white h-[75vh] backdrop-blur-xl rounded-xl border-collapse"
     >
       <!-- Login Header -->
-      <span class="mt-10"></span>
-      <h2 class="justify-start text-2xl mx-auto">Login</h2>
-      <span class="mb-12"></span>
+      <h2 class="justify-start text-2xl mt-16 mb-14 mx-auto">Login</h2>
 
       <!-- Email -->
-      <span class="mt-1"></span>
-      <label for="Email">Email</label>
-      <span class="mb-1"></span>
+      <label for="Email" class="my-1">Email</label>
       <input
-        class="rounded-md text-black placeholder-black bg-white bg-opacity-40 p-1.5"
+        class="rounded-md placeholder-black bg-white bg-opacity-40 p-1.5 mb-4"
         placeholder="Type your email"
         type="email"
       />
-      <span class="mb-6"></span>
 
       <!-- Password -->
-      <label for="Password">Password</label>
-      <span class="mb-1"></span>
+      <label for="Password" class="mb-1">Password</label>
 
       <PasswordField />
 
       <!-- Login button -->
-      <span class="mt-3"></span>
       <button
-        class="text-black bg-test-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
+        class="my-3 text-black bg-test-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
       >
         Login
       </button>
-      <span class="mb-3"></span>
 
       <!-- Remember Me Checkbox and Forgot Password -->
-      <span class="mt-3"></span>
       <div class="flex justify-between text-xs">
         <div class="RememberMe">
           <input type="checkbox" name="RememberMe" id="RememberMe" class="align-middle" />
@@ -47,13 +38,12 @@
         <RouterLink
           to="/forgotPassword"
           class="hover:text-blue-500 hover:cursor-pointer hover:underline hover:underline-offset-4"
-          >Forgot Password?</RouterLink
-        >
+          >Forgot Password?
+        </RouterLink>
       </div>
 
       <!-- Or Login with -->
-      <span class="mt-7"></span>
-      <div class="flex flex-col justify-center items-center">
+      <div class="flex flex-col justify-center items-center mt-8">
         <small>— Or login with —</small>
         <span class="mb-2"></span>
 
@@ -85,8 +75,7 @@
       </div>
 
       <!-- Don't have account yet? Register here -->
-      <span class="mt-8"></span>
-      <p class="mx-auto">
+      <p class="mx-auto mt-8 mb-3">
         Don't have an account yet?
         <router-link
           to="/registration"
@@ -101,6 +90,10 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
 
+// components
 import PasswordField from '@/components/PasswordField.vue'
+
+// const alignmentRight = ref("fixed z-[1] right-[6%] my-1.5 h-5 w-6 hover:cursor-pointer");
 </script>

@@ -17,7 +17,7 @@
           to="/"
           class="flex flex-col items-center border-2 border-black rounded-md mx-6 w-60 px-5"
         >
-          <p class="mt-5 uppercase text-test-display font-extrabold tracking-wider">Cart name</p>
+          <p class="mt-5 uppercase text-test-display font-extrabold tracking-wider">Cart</p>
           <p class="mt-5 text-justify">
             This is a short cart details to look like there's something useful typed in here.
           </p>
@@ -26,7 +26,7 @@
           to="/"
           class="flex flex-col items-center border-2 border-black rounded-md mx-6 w-60 px-5"
         >
-          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart name</p>
+          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart</p>
           <p class="mt-5 text-justify">
             This is a short cart details to look like there's something useful typed in here.
           </p>
@@ -35,7 +35,7 @@
           to="/"
           class="flex flex-col items-center border-2 border-black rounded-md mx-6 w-60 px-5"
         >
-          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart name</p>
+          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart</p>
           <p class="mt-5 text-justify">
             This is a short cart details to look like there's something useful typed in here.
           </p>
@@ -44,17 +44,17 @@
           to="/"
           class="flex flex-col items-center border-2 border-black rounded-md mx-6 w-60 px-5"
         >
-          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart name</p>
+          <p class="mt-5 uppercase text-test-display font-semibold tracking-wider">Cart</p>
           <p class="mt-5 text-justify">
             This is a short cart details to look like there's something useful typed in here.
           </p>
         </router-link>
       </div>
       <div class="flex justify-center my-auto">
-        <img class="mx-3 hover:cursor-pointer" src="../assets/icons/twitter/icons8-twitter-circled-48.png" alt="twitter" />
-        <img class="mx-3 hover:cursor-pointer" src="../assets/icons/instagram/icons8-instagram-48.png" alt="instagram" />
-        <img class="mx-3 hover:cursor-pointer" src="../assets/icons/facebook/icons8-facebook-48.png" alt="facebook" />
-        <img class="mx-3 hover:cursor-pointer" src="../assets/icons/linkedin/icons8-linkedin-48.png" alt="linkedin" />
+        <img class="mx-4 hover:cursor-pointer" src="../assets/icons/twitter/icons8-twitter-circled-48.png" alt="twitter" />
+        <img class="mx-4 hover:cursor-pointer" src="../assets/icons/instagram/icons8-instagram-48.png" alt="instagram" />
+        <img class="mx-4 hover:cursor-pointer" src="../assets/icons/facebook/icons8-facebook-48.png" alt="facebook" />
+        <img class="mx-4 hover:cursor-pointer" src="../assets/icons/linkedin/icons8-linkedin-48.png" alt="linkedin" />
       </div>
     </div>
   </div>
