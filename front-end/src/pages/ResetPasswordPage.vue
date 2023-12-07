@@ -5,11 +5,18 @@
     <div class="relative z-0 h-[91.4vh] w-screen backdrop-blur-md"></div>
 
     <!-- Card container -->
-    <div class="fixed z-[1] h-[30rem] w-[50rem] mt-3 bg-test-login bg-cover">
+    <div class="fixed z-[1] h-[32rem] w-[50rem] bg-test-login bg-cover">
+
       <!-- Container image -->
-      <div class="flex flex-col h-[30rem] w-[26rem] bg-test-primary">
-        <h2 class="text-5xl mt-auto pl-9">Reset your password?</h2>
-        <p class="mt-4 mb-8 px-9">No worries! Just enter your email and we'll send your reset.</p>
+      <div class="flex flex-col h-[32rem] w-[26rem] bg-test-primary">
+        <h2 class="text-2xl mt-10 pl-9">Reset your password?</h2>
+        <p class="mt-3 px-9">Password requirements:</p>
+        <ul class="mt-1 mb-10 px-9 text-sm list-disc list-inside">
+          <li>At least 8 characters</li> 
+          <li>Contains uppercase</li> 
+          <li>Contains at least 1 special character</li> 
+          <li>Contains at least 1 number</li> 
+        </ul>
 
         <div class="mx-20 my-3">
           <label for="typePassword">Type Password:</label>
@@ -41,3 +48,4 @@ import { RouterLink } from 'vue-router'
 // import component
 import PasswordField from '@/components/PasswordField.vue'
 </script>
+
