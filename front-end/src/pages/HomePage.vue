@@ -39,15 +39,22 @@
     </div>
 
     <!-- Typing test words -->
-    <!-- @keyup="typedKeyEvent" -->
     <div class="flex h-1/5 w-4/6 mt-24 bg-white outline-none" ref="inputDiv" tabindex="0">
       <div
         class="flex justify-end w-1/2 my-auto text-right text-5xl truncate text-clip border-2 border-cyan-300"
       >
-        <span v-html="typed"></span>
+        <!-- Typed word -->
+        <span v-for="(word, key) in spanWords" :key="key">
+          <span :class="unmatchedIndexes.includes(key) ? 'line-through' : ''">{{ word }}</span>
+          <!-- For spaces -->
+          <span>&nbsp;</span>
+        </span>
+
+        <!-- For typed -->
+        <span :class="matchedKey ? '' : 'line-through'">{{ typed }}</span>
       </div>
       <div class="w-1/2 self-center text-5xl truncate text-clip" ref="testDiv">
-        <span v-for="(char, i) in dictionaryStore.testChars" :key="i">
+        <span v-for="char in dictionaryStore.testChars">
           {{ char === ' ' ? '&nbsp;' : char }}
         </span>
       </div>
@@ -63,44 +70,135 @@ import { onMounted, ref } from 'vue';
 const dictionaryStore = useDictionaryStore();
 dictionaryStore.getTestChars();
 
+// function typedSpanClass() {
+//   return ;
+// }
+
+// Array for span words
+const spanWords = ref([]);
+// Array for span space
+const spaces = ref([]);
+
+// Counter for unmatched key
+const index = ref(0);
+// Storage for unmatched key
+const unmatchedIndexes = ref([]);
+// Push unmatched key
+// @Params key = index that will be pushed when unmatchedKey is truthy
+const pushUnmatchedIndexes = (i) => {
+  unmatchedIndexes.value.push(i);
+};
+
 // First child div key event handling
 const typed = ref('');
 
+// Toggle strikethrough class if typed is unmatched
+const matchedKey = ref(true);
+
+//*********************************//
+//**** TYPE KEY EVENT FUNCTION ****//
+//*********************************//
+
 // Get key event and assign to typed
 const typedKeyEvent = (event) => {
-  const currentKey = event.key;
+  // Current user's key press typed
+  const currentKey = ref(event.key);
 
-  // Replace ' ' with &nbsp; to be displayed in HTML
-  currentKey === ' ' ? typed.value += '&nbsp;' : 
+  // ****************************************
+  // Validation Function
+  const popTyped = () => (typed.value = typed.value.slice(0, -1));
+  const pushTyped = () => (typed.value += currentKey.value);
 
-    // Test if Backspace
-    currentKey === "Backspace" ? typed.value.slice(0, -1) :
+  if (currentKey.value === 'Backspace') {
+    // try catch outofbounds exception
+    if (matchedKey.value) {
+      // Checks if typed is empty
+      // if empty proceed to flow
+      // else do nothing
+      if (typed.value.length > 0) {
+        popTyped();
 
-    // Test if word
-    // Test F1 - F12 Keys, if true do nothing
-    // else add typed key
-    currentKey.length > 1 ? typed : typed.value += currentKey ;
-    
-   
+        // unshift character from tempChars to testChars
+        dictionaryStore.restoreTestChars();
+      }
+    } else {
+      popTyped();
 
-  if (currentKey === dictionaryStore.testChars[0]) {
-    console.log(
-      `Current key: ${currentKey}, dictionaryStore.testChars[0]: ${dictionaryStore.testChars[0]} `,
-    );
+      if (typed.value.split('').length === dictionaryStore.tempChars.length)
+        matchedKey.value = true;
+    }
 
+    // keypressed is neither character, number, nor special character
+  } else if (currentKey.value.length > 1) {
+    //do nothing
+  } else if (currentKey.value === ' ' && matchedKey.value) {
+    // new word will be executed
+
+    // INSERT LOGIC HERE FOR
+    // currentKey.value !== dictionaryStore.testChars[0]
+    // matchedKey.value = false
+    if (dictionaryStore.testChars[0] !== ' ') {
+      matchedKey.value = false;
+      // Push unmatched key to unmatchedIndexes
+      pushUnmatchedIndexes(index.value);
+
+      dictionaryStore.shiftTestCharsTillSpace();
+    } else {
+      dictionaryStore.shiftTestChars();
+    }
+
+    createNewSpan();
+    dictionaryStore.emptyTempChars();
+    index.value++;
+
+    // add words when
+    if (dictionaryStore.testChars.length < 35) dictionaryStore.getTestChars();
+
+  } else if (currentKey.value === ' ' && !matchedKey.value) {
+    createNewSpan();
+    dictionaryStore.emptyTempChars();
+
+    // Push unmatched key to unmatchedIndexes
+    pushUnmatchedIndexes(index.value);
+    index.value++;
+
+    dictionaryStore.shiftTestCharsTillSpace();
+  } else if (currentKey.value === dictionaryStore.testChars[0] && matchedKey.value) {
+    // if typed key matched in dictionary
+
+    // push first index of  testChar to tempChars
+    dictionaryStore.backupToTempChars();
+
+    // shift testChar
     dictionaryStore.shiftTestChars();
 
-    // Get testDiv div
-    const testDiv = ref(null);
-    const getTestDiv = testDiv.value;
-
-    if (getTestDiv && getTestDiv.childNodes.length > 0) {
-      getTestDiv.removeChild(getTestDiv.childNodes[0]);
-    }
+    // push Key to typed
+    pushTyped();
   } else {
-    console.log(
-      `Current key: ${currentKey}, dictionaryStore.testChars[0]: ${dictionaryStore.testChars[0]} `,
-    );
+    matchedKey.value = false;
+
+    // push key to typed
+    pushTyped();
+  }
+
+  // ***********************
+  // Create new span
+
+  function createNewSpan() {
+    // Get typed keys as word
+    const newSpan = typed.value;
+
+    // Add words as span
+    spanWords.value.push(newSpan);
+
+    // Add space as span
+    spaces.value.push(' ');
+
+    // Empty temp storage
+    typed.value = '';
+
+    // Reset matchedKey to true
+    matchedKey.value = true;
   }
 };
 
