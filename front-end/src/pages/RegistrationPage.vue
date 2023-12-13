@@ -30,7 +30,7 @@
       <!-- Register button -->
       <span class="mt-3"></span>
       <button
-        class="text-black bg-test-btn-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
+        class="text-black bg-test-display hover:bg-test-hover active:bg-test-active p-1.5 rounded-md"
       >
         Register
       </button>
