@@ -9,14 +9,14 @@
       <div
         class="flex flex-col justify-center items-center h-28 h- w-28 rounded-full border-4 border-white"
       >
-        <p class="text-4xl font-[900]">60</p>
+        <p class="text-4xl font-[900]">{{ seconds }}</p>
         <p class="">seconds</p>
       </div>
 
       <!-- words/min -->
       <div class="flex flex-col justify-center items-center">
         <div class="flex justify-center items-center h-16 w-16 bg-gray-100 rounded-md">
-          <p class="text-4xl font-[900]">0</p>
+          <p class="text-4xl font-[900]">{{ wpm }}</p>
         </div>
         <p>words/min</p>
       </div>
@@ -24,7 +24,7 @@
       <!-- chars/min -->
       <div class="flex flex-col justify-center items-center">
         <div class="flex justify-center items-center h-16 w-16 bg-gray-100 rounded-md">
-          <p class="text-4xl font-[900]">0</p>
+          <p class="text-4xl font-[900]">{{ cpm }}</p>
         </div>
         <p>chars/min</p>
       </div>
@@ -32,7 +32,7 @@
       <!-- % accuracy -->
       <div class="flex flex-col justify-center items-center">
         <div class="flex justify-center items-center h-16 w-16 bg-gray-100 rounded-md">
-          <p class="text-4xl font-[900]">0</p>
+          <p class="text-4xl font-[900]">{{ accuracy }}</p>
         </div>
         <p>% accuracy</p>
       </div>
@@ -54,6 +54,7 @@
         <span :class="matchedKey ? '' : 'line-through'">{{ typed }}</span>
       </div>
       <div class="w-1/2 self-center text-5xl truncate text-clip" ref="testDiv">
+        <!-- For Test Chars -->
         <span v-for="char in dictionaryStore.testChars">
           {{ char === ' ' ? '&nbsp;' : char }}
         </span>
@@ -64,15 +65,19 @@
 
 <script setup>
 import { useDictionaryStore } from '@/stores/DictionaryStore';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+
+// *******************************
+//  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TypeKeyEvent Starts here
 
 // Dictionary
 const dictionaryStore = useDictionaryStore();
 dictionaryStore.getTestChars();
 
-// function typedSpanClass() {
-//   return ;
-// }
+// Counter for words
+const words = ref(0);
+// Counter for characters
+const characters = ref(0);
 
 // Array for span words
 const spanWords = ref([]);
@@ -94,10 +99,6 @@ const typed = ref('');
 
 // Toggle strikethrough class if typed is unmatched
 const matchedKey = ref(true);
-
-//*********************************//
-//**** TYPE KEY EVENT FUNCTION ****//
-//*********************************//
 
 // Get key event and assign to typed
 const typedKeyEvent = (event) => {
@@ -131,38 +132,49 @@ const typedKeyEvent = (event) => {
     // keypressed is neither character, number, nor special character
   } else if (currentKey.value.length > 1) {
     //do nothing
-  } else if (currentKey.value === ' ' && matchedKey.value) {
-    // new word will be executed
+  } else if (currentKey.value === ' ') {
+    if (typed.value === '') {
+      // do nothing
+    } else if (matchedKey.value) {
+      // new word will be executed
 
-    // INSERT LOGIC HERE FOR
-    // currentKey.value !== dictionaryStore.testChars[0]
-    // matchedKey.value = false
-    if (dictionaryStore.testChars[0] !== ' ') {
-      matchedKey.value = false;
+      // Check the first index of testChars if not space
+      if (dictionaryStore.testChars[0] !== ' ') {
+        // set matchedKey to false
+        matchedKey.value = false;
+        // Push unmatched key to unmatchedIndexes
+        pushUnmatchedIndexes(index.value);
+
+        // Remove all characters until the next word
+        dictionaryStore.shiftTestCharsTillSpace();
+
+        // if space proceed to next word
+      } else {
+        // Increment words to one
+        words.value++;
+        // Add all character in word
+        characters.value += typed.value.length;
+        // Remove first index of testChars
+        dictionaryStore.shiftTestChars();
+      }
+
+      // add words when testChars has few words
+      if (dictionaryStore.testChars.length < 35) dictionaryStore.getTestChars();
+
+      // matchedKey === false
+    } else {
       // Push unmatched key to unmatchedIndexes
       pushUnmatchedIndexes(index.value);
 
+      // Remove characters till next word
       dictionaryStore.shiftTestCharsTillSpace();
-    } else {
-      dictionaryStore.shiftTestChars();
     }
 
-    createNewSpan();
-    dictionaryStore.emptyTempChars();
-    index.value++;
-
-    // add words when
-    if (dictionaryStore.testChars.length < 35) dictionaryStore.getTestChars();
-
-  } else if (currentKey.value === ' ' && !matchedKey.value) {
-    createNewSpan();
-    dictionaryStore.emptyTempChars();
-
-    // Push unmatched key to unmatchedIndexes
-    pushUnmatchedIndexes(index.value);
-    index.value++;
-
-    dictionaryStore.shiftTestCharsTillSpace();
+    if (typed.value !== '') {
+      createNewSpan();
+      dictionaryStore.emptyTempChars();
+      index.value++;
+    }
   } else if (currentKey.value === dictionaryStore.testChars[0] && matchedKey.value) {
     // if typed key matched in dictionary
 
@@ -181,9 +193,22 @@ const typedKeyEvent = (event) => {
     pushTyped();
   }
 
+  // Set start timer flag
+  if (timerFlag.value === 0) timerFlag.value = 1;
+
+  // Check if timerFlag starts
+  if (timerFlag.value === 1) {
+    // Set timerFlag to starting
+    timerFlag.value = 2;
+    // Accumulate seconds every 1 seconds
+    timer.value = setInterval(() => {
+      // add seconds
+      seconds.value--;
+    }, 1000);
+  }
+
   // ***********************
   // Create new span
-
   function createNewSpan() {
     // Get typed keys as word
     const newSpan = typed.value;
@@ -201,10 +226,73 @@ const typedKeyEvent = (event) => {
     matchedKey.value = true;
   }
 };
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TypeKeyEvent Ends here
+// *******************************
+
+// *******************************
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Timer Starts here
+// const mins
+const mins = ref(1);
+// Counter for seconds
+const seconds = ref(60);
+// setInterval storage
+const timer = ref(0);
+
+// 0 timerFlag hasn't started
+// 1 timerFlag trigger to start
+// 2 timerFlag starting
+const timerFlag = ref(0);
+
+// Check if timer reach end
+// Watch for changes in seconds
+watch(seconds, (newSeconds) => {
+  // Check if timer reaches the end (10 seconds)
+  if (newSeconds === 0) {
+    // Stop timer
+    clearInterval(timer.value);
+
+    // remove event listener
+    inputDiv.value.removeEventListener('keyup', typedKeyEvent);
+  }
+});
+
+//  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Timer Ends here
+// *******************************
+
+// *******************************
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TypeKeyEvent Starts here
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Timer Ends here
+// *******************************
+
+const wpm = ref(0);
+const cpm = ref(0);
+const accuracy = ref(0);
+
+// Set wpm/mins
+watch(words, (newWords) => {
+  wpm.value = newWords / mins.value;
+});
+
+// Set cpm/mins
+watch(characters, (newChararacters) => {
+  cpm.value = newChararacters / mins.value;
+});
+
+// Set accuracy
+watch(index, () => {
+  accuracy.value = Math.floor((words.value / spanWords.value.length) * 100);
+});
+
+// *******************************
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Adding of Keyup event listener Starts here
 
 // Add Keyup event listener after dom loaded
 const inputDiv = ref(null);
 onMounted(() => {
   inputDiv.value.addEventListener('keyup', typedKeyEvent);
 });
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding of Keyup event listener Ends here
+// *******************************
 </script>
